@@ -21,7 +21,7 @@ import {
 import {Usuario} from '../models';
 import {UsuarioRepository} from '../repositories';
 import {AutenticacionService} from '../services';
-
+const fetch = require('node-fetch');
 
 export class UsuarioController {
   constructor(
@@ -53,6 +53,16 @@ export class UsuarioController {
     let contrasenaCifrada = this.servicioAutenticacion.CifrarContrasena(contrasena);
     usuario.contrasena = contrasenaCifrada;
     let p = await this.usuarioRepository.create(usuario);
+
+    //Notificar al usuario
+    let destino = usuario.correo;
+    let asunto = 'Datos de registro en la plataforma'; //'Ensayis de registro en la plataforma';
+    let contenido = `Hola ${usuario.nombre} bienvenido a la plataforma de Mascota Feliz, su usuario es ${usuario.correo} y su contraseña es ${contrasena}`
+    fetch(`http://127.0.0.1:5000/email?correo_destino=${destino}&asunto=${asunto}&contenido=${contenido}`)
+      .then((data:any)=>{
+        console.log(data);
+      })
+      return p;
   }
 
   @get('/usuarios/count')
