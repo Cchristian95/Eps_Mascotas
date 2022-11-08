@@ -28,7 +28,7 @@ export class EstrategiaAsesor implements AuthenticationStrategy {
                 throw new HttpErrors[401]('Token Incorrecto')
             }
         } else {
-            throw new HttpErrors[401]('No se incluyó el Token')
+            throw new HttpErrors[401]('No se incluyó el Token Para el Asesor')
         }
     }
 }

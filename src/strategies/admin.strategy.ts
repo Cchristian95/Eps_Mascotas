@@ -6,7 +6,7 @@ import parseBearerToken from 'parse-bearer-token';
 import {AutenticacionService} from '../services';
 
 export class EstrategiaAdministrador implements AuthenticationStrategy {
-  name: string = 'admin';
+  name: string = 'administrador';
 
   constructor(
     @service(AutenticacionService)
@@ -19,15 +19,26 @@ export class EstrategiaAdministrador implements AuthenticationStrategy {
       let datos = this.servicioAutenticacion.ValidarTokenJWT(token)
       // Aquí harían la validación dependiendo del rol
       if (datos) {
-        let perfil: UserProfile = Object.assign({
-          nombre: datos.data.nombre
-        });
-        return perfil
+        if (datos.data.rol == 'administrador') {
+          let perfil: UserProfile = Object.assign({
+            nombre: datos.data.nombre
+          });
+          return perfil
+        } else {
+          if (datos.data.rol == 'cliente') {
+            let perfil: UserProfile = Object.assign({
+              nombre: datos.data.nombre
+            });
+            return perfil;
+          } else {
+            return;
+          }
+        }
       } else {
-          throw new HttpErrors[401]('El token estaba malo')
+        throw new HttpErrors[401]('El token estaba malo')
       }
     } else {
-      throw new HttpErrors[401]('No sé incluyó el token')
+      throw new HttpErrors[401]('No sé incluyó el token Administrador')
     }
   }
 }
