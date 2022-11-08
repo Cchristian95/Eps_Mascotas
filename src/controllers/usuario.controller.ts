@@ -54,7 +54,7 @@ export class UsuarioController {
     }
   }
 
-  @authenticate('administrador')
+  // @authenticate('administrador')
   @post('/usuarios')
   @response(200, {
     description: 'Usuario model instance',

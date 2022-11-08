@@ -1,8 +1,8 @@
-import {injectable, /* inject, */ BindingScope} from '@loopback/core'
+import { /* inject, */ BindingScope, injectable} from '@loopback/core';
 import {repository} from '@loopback/repository';
+import {Llaves} from '../config/llaves';
 import {Usuario} from '../models';
 import {UsuarioRepository} from '../repositories';
-import {Llaves} from '../config/llaves';
 const generador = require('password-generator');
 const cryptoJS = require('crypto-js');
 const jwt = require('jsonwebtoken');
@@ -46,19 +46,20 @@ export class AutenticacionService {
       data: {
         id: usuario.id,
         correo: usuario.correo,
-        nombre: usuario.nombre
+        nombre: usuario.nombre,
+        rol: usuario.rol
       }
     },
-    Llaves.contrasenaJWT);
+      Llaves.contrasenaJWT);
     return token;
   }
 
-  ValidarTokenJWT(token: string){
+  ValidarTokenJWT(token: string) {
     try {
       let datos = jwt.verify(token, Llaves.contrasenaJWT);
       return datos;
     } catch {
-        return false;
+      return false;
     }
   }
 
