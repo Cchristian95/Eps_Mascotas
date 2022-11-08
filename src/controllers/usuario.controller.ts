@@ -18,7 +18,7 @@ import {UsuarioRepository} from '../repositories';
 import {AutenticacionService} from '../services';
 const fetch = require('node-fetch');
 
-@authenticate('admin')
+@authenticate('administrador')
 export class UsuarioController {
   constructor(
     @repository(UsuarioRepository)
@@ -27,7 +27,7 @@ export class UsuarioController {
     public servicioAutenticacion: AutenticacionService
   ) { }
 
-  //@authenticate.skip()
+  @authenticate.skip()
   @post('/identificarUsuario', {
     responses: {
       '200': {
@@ -54,7 +54,7 @@ export class UsuarioController {
     }
   }
 
-  //@authenticate('admin')
+  @authenticate('administrador')
   @post('/usuarios')
   @response(200, {
     description: 'Usuario model instance',
